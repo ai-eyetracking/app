@@ -21,7 +21,7 @@ default: &default
 
 development:
   <<: *default
-  database: build_flow_development
+  database: app_eye_tracking_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -55,7 +55,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: build_flow_test
+  database: app_eye_tracking_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -79,6 +79,6 @@ test:
 #
 production:
   <<: *default
-  database: build_flow_production
-  username: build_flow
+  database: app_eye_tracking_production
+  username: app_eye_tracking
   password: <%= ENV["BUILD_FLOW_DATABASE_PASSWORD"] %>
