@@ -5,5 +5,6 @@ const components = {
 }
 
 export function getComponent(name) {
+  console.log!("mounting", name)
   return components[name]
 }
