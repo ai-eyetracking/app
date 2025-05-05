@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="bg-gray-50">
   <head>
-    <title>Build Flow</title>
+    <title>Vision Track</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,10 +11,19 @@
     <%= vite_javascript_tag 'application' %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
   </head>
-  <% if current_user %>
-    <%= render "partials/top_nav" %>
-  <% end %>
-  <body>
-    <%= yield %>
+  <body class="h-screen flex flex-col">
+    <% if current_user %>
+      <%= render "partials/top_nav" %>
+      
+      <div class="flex flex-1 overflow-hidden">
+        <%= render "partials/side_bar" %>
+        
+        <div class="flex-1 overflow-auto">
+          <%= yield %>
+        </div>
+      </div>
+    <% else %>
+      <%= yield %>
+    <% end %>
   </body>
 </html>
