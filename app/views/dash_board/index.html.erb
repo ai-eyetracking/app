@@ -6,3 +6,5 @@
     message: 'This Vue component is rendered in a Rails view.' 
   }, { class: 'mb-4' } %>
 </div>
+
+<%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "your-classes-here" %>
