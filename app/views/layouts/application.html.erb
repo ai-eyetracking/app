@@ -11,7 +11,7 @@
     <%= vite_javascript_tag 'application' %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
   </head>
-
+  <%= render "partials/top_nav" %>
   <body>
     <%= yield %>
   </body>
