@@ -28,23 +28,54 @@
       </div>
   
       <div class="flex items-center">
-        <div class="user-profile flex items-center">
-          <button class="h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center">
+        <div class="user-profile flex items-center relative">
+          <button 
+            @click="toggleDropdown" 
+            class="h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer"
+          >
             <span class="font-medium text-xs text-gray-800">JD</span>
           </button>
+          
+          <div 
+            v-if="dropdownOpen" 
+            class="absolute right-8 top-12 w-40 bg-white rounded-lg shadow-md py-1 z-10 border border-gray-100 overflow-hidden"
+            style="top: 100%;"
+          >
+            
+            <form action="/users/sign_out" method="post" class="block">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="hidden" name="authenticity_token" :value="csrfToken" />
+              <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+                Sign out
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </template>
   
   <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, onUnmounted } from 'vue';
   
   const navItems = ref([
     { name: 'Dashboard', path: '/', active: true },
     { name: 'Reports', path: '/reports', active: false },
     { name: 'Settings', path: '/settings', active: false }
   ]);
+  
+  const dropdownOpen = ref(false);
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+  
+  const toggleDropdown = () => {
+    dropdownOpen.value = !dropdownOpen.value;
+  };
+  
+  const closeDropdown = (event) => {
+    if (!event.target.closest('.user-profile')) {
+      dropdownOpen.value = false;
+    }
+  };
   
   const setActiveNavItem = (routePath) => {
     navItems.value.forEach(item => {
@@ -55,5 +86,11 @@
   onMounted(() => {
     const currentPath = window.location.pathname;
     setActiveNavItem(currentPath);
+    
+    document.addEventListener('click', closeDropdown);
+  });
+  
+  onUnmounted(() => {
+    document.removeEventListener('click', closeDropdown);
   });
   </script>
