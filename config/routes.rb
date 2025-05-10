@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   root "dash_board#index"
 
-  resources :projects, only: %i[new create]
+  resources :projects, only: %i[new create], export: true
 end
