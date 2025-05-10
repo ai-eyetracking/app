@@ -2,7 +2,7 @@
     <div class="sidebar-container h-full w-64 bg-white border-r border-gray-100 flex flex-col">
       <div class="px-5 py-4 flex justify-between items-center">
         <h2 class="text-sm font-medium text-gray-900">Projects</h2>
-        <button class="h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-200">
+        <button @click="toggleModal" class="h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-200 cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4" />
           </svg>
@@ -30,10 +30,14 @@
         </div>
       </div>
     </div>
+    <NewProjectModal :isOpen="toggleNewProjectModal" @close="toggleModal" />
   </template>
   
   <script setup>
   import { ref } from 'vue';
+  import NewProjectModal from '../projects/NewProjectModal.vue';
+
+  const toggleNewProjectModal = ref(false)
   
   const projects = ref([
     { name: 'Website Redesign', imageCount: 5, active: true },
@@ -46,4 +50,9 @@
       project.active = i === index;
     });
   };
+
+  const toggleModal = () => {
+    console .log("trrigered")
+    toggleNewProjectModal.value = !toggleNewProjectModal.value
+  }
   </script>
