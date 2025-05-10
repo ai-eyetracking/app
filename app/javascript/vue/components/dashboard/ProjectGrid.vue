@@ -1,9 +1,8 @@
 <template>
     <div class="projects-container p-6">
-      <!-- Header with title and new project button -->
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-xl font-medium text-gray-900">Projects</h1>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+        <button @click="toggleModal" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors cursor-pointer">
           New Project
         </button>
       </div>
@@ -45,8 +44,7 @@
           </div>
         </div>
   
-        <!-- Create new project card -->
-        <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-dashed border-gray-200">
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-dashed border-gray-200 cursor-pointer">
           <div class="p-5 flex flex-col items-center justify-center h-full min-h-44">
             <div class="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 mb-3">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,15 +55,23 @@
           </div>
         </div>
       </div>
+      <NewProjectModal :isOpen="modalOpen" @close="toggleModal"/>
     </div>
   </template>
   
   <script setup>
   import { ref } from 'vue';
+  import NewProjectModal from '../projects/NewProjectModal.vue';
+
+  const modalOpen = ref(false)
   
   const projects = ref([
     { name: 'Website Redesign', imageCount: 5, createdAt: 'April 24, 2025', color: 'blue' },
     { name: 'Product Packaging', imageCount: 3, createdAt: 'April 20, 2025', color: 'green' },
     { name: 'Email Campaign', imageCount: 2, createdAt: 'April 15, 2025', color: 'pink' }
   ]);
+
+  const toggleModal = () => {
+    modalOpen.value = !modalOpen.value
+  }
   </script>
