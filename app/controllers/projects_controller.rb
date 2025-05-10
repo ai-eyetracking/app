@@ -4,7 +4,9 @@ class ProjectsController < ApplicationController
   def index
     @project = Project.last
 
-    redirect_to(@project)
+    if @project
+      redirect_to(@project)
+    end
   end
 
   def new
