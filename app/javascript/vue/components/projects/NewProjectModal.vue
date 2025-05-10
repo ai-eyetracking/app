@@ -50,6 +50,7 @@
   </template>
 <script setup>
 import { ref } from 'vue';
+import ProjectsApi from '../../../../frontend/api/ProjectsApi';
 
 const props = defineProps({
     isOpen: Boolean
@@ -57,16 +58,23 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const closeModal = () => {
-  emit('close');
-};
-
 const projectData = ref({
     title: "",
     description: ""
 })
 
-const submit = () => {
-    console.log("submiting", projectData.value)
+const submit = async () => {
+    try {
+      const response = await ProjectsApi.create({
+        data: {
+          title: projectData.value.title,
+          description: projectData.value.description
+        }
+      })
+      emit('close')
+      window.location.reload()
+    } catch (e) {
+      console.log("triggered", e)
+    }
 }
 </script>

@@ -1,6 +1,10 @@
 class ProjectsController < ApplicationController
+  before_action :set_project, only: [:show]
   
   def index
+    @project = Project.last
+
+    redirect_to(@project)
   end
 
   def new
@@ -11,15 +15,26 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     @project.user_id = current_user.id
     if @project.save
-      redirect_to @project, notice: "Project was sucessfuly created"
+      render json: { message: "#{@project.title} generated" }, status: :ok
     else
-      render :new
+      render json: { 
+        error: "Failed to create project", 
+        errors: @project.errors.full_messages,
+        details: @project.errors.details
+      }, status: :unprocessable_entity
     end
+  end
+
+  def show
   end
 
   private
 
   def project_params
     params.require(:project).permit(:title, :description)
+  end
+
+  def set_project
+    @porduct = Project.find(params[:id])
   end
 end
