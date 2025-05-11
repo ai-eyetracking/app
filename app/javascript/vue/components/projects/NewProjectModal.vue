@@ -72,7 +72,7 @@ const submit = async () => {
         }
       })
       emit('close')
-      window.location.reload()
+      window.location.href = response.redirectPath
     } catch (e) {
       console.log("triggered", e)
     }

@@ -17,7 +17,8 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     @project.user_id = current_user.id
     if @project.save
-      render json: { message: "#{@project.title} generated" }, status: :ok
+      redirect_path = project_path(@project)
+      render json: { message: "#{@project.title} generated", redirect_path: }, status: :ok
     else
       render json: { 
         error: "Failed to create project", 
