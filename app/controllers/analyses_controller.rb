@@ -7,7 +7,7 @@ class AnalysesController < ApplicationController
     @analysis = Analysis.new(analyses_params)
     if @analysis.save
       redirect_path = analysis_path(@analysis)
-      render json: { message: "succes", redirect_path: } status: :ok
+      render json: { message: "succes", redirect_path: }, status: :ok
     end
   end
 
