@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:show]
   
   def index
-    @project = Project.last
+    @project = current_user.projects.last
 
     if @project
       redirect_to(@project)
