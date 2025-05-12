@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_11_184435) do
 
   create_table "analyses", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "type", default: 0, null: false
+    t.integer "analysis_type", default: 0, null: false
     t.bigint "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

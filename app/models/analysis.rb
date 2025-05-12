@@ -1,7 +1,9 @@
 class Analysis < ApplicationRecord
   belongs_to :project
 
-  enum type: { website: 0 }
+  scope :recent, ->{order(created_at: :desc)}
+
+  enum analysis_type: { website: 0 }
 
   validates :name, presence: true
 end

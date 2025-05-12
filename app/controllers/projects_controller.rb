@@ -29,6 +29,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @analyses = @project.analyses.recent
   end
 
   private
@@ -38,6 +39,6 @@ class ProjectsController < ApplicationController
   end
 
   def set_project
-    @porduct = Project.find(params[:id])
+    @project = Project.find(params[:id])
   end
 end

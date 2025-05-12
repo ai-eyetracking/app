@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   root "projects#index"
 
   resources :projects, only: %i[new create show], export: true
+  resources :analyses, only: %i[new]
 end
