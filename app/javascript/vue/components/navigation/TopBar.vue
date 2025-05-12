@@ -58,11 +58,7 @@
   <script setup>
   import { ref, onMounted, onUnmounted } from 'vue';
   
-  const navItems = ref([
-    { name: 'Dashboard', path: '/', active: true },
-    { name: 'Reports', path: '/reports', active: false },
-    { name: 'Settings', path: '/settings', active: false }
-  ]);
+  const navItems = ref([]);
   
   const dropdownOpen = ref(false);
   const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
