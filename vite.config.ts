@@ -7,4 +7,14 @@ export default defineConfig({
     RubyPlugin(),
     vue()
   ],
+  server: {
+    hmr: {
+      overlay: true,
+      clientPort: 3036,
+      host: 'localhost'
+    },
+    watch: {
+      usePolling: true
+    }
+  }
 })
