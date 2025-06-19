@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   root "projects#index"
 
-  resources :projects, only: %i[new create show], export: true
-  resources :analyses, only: %i[new]
+  resources :projects, only: %i[new create show], export: true do
+    resources :analyses, only: %i[new create], shallow: true
+  end
+  
+  resources :analyses, only: %i[show] do
+    resources :versions, controller: 'analysis_versions', only: %i[index show create]
+  end
 end

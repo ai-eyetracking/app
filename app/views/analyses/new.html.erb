@@ -1,1 +1,14 @@
-<%= "new" %>
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Create New Analysis</h1>
+      <p class="mt-1 text-sm text-gray-500">
+        Upload and analyze your design with AI-powered insights
+      </p>
+    </div>
+
+    <!-- Vue Component -->
+    <%= vue_component "AnalysisCreator", { projectId: params[:project_id] } %>
+  </div>
+</div>

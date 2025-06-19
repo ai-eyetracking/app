@@ -4,6 +4,7 @@ import SideNav from './components/navigation/SideNav.vue'
 import ProjectGrid from './components/dashboard/ProjectGrid.vue'
 import NewProjectModal from './components/projects/NewProjectModal.vue'
 import NewAnalysis from './components/analyses/NewAnalysis.vue'
+import AnalysisCreator from './components/analyses/AnalysisCreator.vue'
 
 const components = {
   'Greeting': Greeting,
@@ -12,6 +13,7 @@ const components = {
   "ProjectGrid": ProjectGrid,
   "NewProjectModal": NewProjectModal,
   "NewAnalysis": NewAnalysis,
+  "AnalysisCreator": AnalysisCreator,
 }
 
 export function getComponent(name) {
