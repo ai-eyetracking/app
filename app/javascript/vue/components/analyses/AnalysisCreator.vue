@@ -192,7 +192,7 @@
         <div class="px-8 py-4 bg-gray-50 border-t border-gray-100">
           <div class="flex items-center justify-between">
             <p class="text-sm text-gray-500">
-              Step 1 of 3
+              Step 1 of 2
             </p>
             <button
               @click="handleContinue"
@@ -224,29 +224,13 @@
           <button @click="currentStep = 1" class="px-6 py-2.5 rounded-lg text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
             Back
           </button>
-          <button @click="currentStep = 3" class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-gray-900 hover:bg-gray-800">
-            Generate Heatmap
+          <button @click="finishKeyAreas" class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-gray-900 hover:bg-gray-800">
+            Save Key Areas
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Step 3: Results (placeholder) -->
-    <div v-if="currentStep === 3" class="max-w-6xl mx-auto">
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Analysis Results</h2>
-        <p class="text-gray-600">Your heatmap and AI insights will appear here</p>
-        
-        <div class="mt-8 grid grid-cols-2 gap-8">
-          <div class="bg-gray-100 rounded-lg h-96 flex items-center justify-center">
-            <p class="text-gray-500">Heatmap visualization</p>
-          </div>
-          <div class="bg-gray-100 rounded-lg h-96 flex items-center justify-center">
-            <p class="text-gray-500">AI suggestions</p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -282,8 +266,7 @@ const DesktopIcon = {
 // Data
 const steps = [
   { name: 'Upload', description: 'Add your design file' },
-  { name: 'Define Areas', description: 'Mark key regions' },
-  { name: 'Results', description: 'View insights' }
+  { name: 'Define Areas', description: 'Mark key regions' }
 ]
 
 const analysisTypes = [
@@ -360,6 +343,14 @@ const handleContinue = () => {
   
   // Move to key areas step
   currentStep.value = 2
+}
+
+// Finish key areas and proceed
+const finishKeyAreas = () => {
+  // This would save key areas and then redirect to the heatmap generator view
+  // For now, just emit an event or redirect
+  console.log('Key areas saved, ready to generate heatmap')
+  // You can emit an event here or redirect to the heatmap generator view
 }
 
 // Create analysis and upload version (to be called from key areas screen)
