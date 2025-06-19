@@ -44,7 +44,7 @@
             <p class="mt-2 text-gray-600">Upload your design to get AI-powered insights and heatmap analysis</p>
           </div>
           
-          <form @submit.prevent="handleUpload" class="space-y-6">
+          <form @submit.prevent="handleContinue" class="space-y-6">
             <!-- Analysis Name -->
             <div>
               <label for="analysis-name" class="block text-sm font-medium text-gray-700 mb-2">
@@ -195,19 +195,12 @@
               Step 1 of 3
             </p>
             <button
-              @click="handleUpload"
-              :disabled="!selectedFile || !analysisName || isUploading"
+              @click="handleContinue"
+              :disabled="!selectedFile || !analysisName"
               class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
             >
-              <span v-if="isUploading" class="flex items-center">
-                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Creating Analysis...
-              </span>
-              <span v-else>Continue to Key Areas</span>
-              <svg v-if="!isUploading" class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span>Continue to Key Areas</span>
+              <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -361,8 +354,16 @@ const clearFile = () => {
   if (fileInput) fileInput.value = ''
 }
 
-// Upload handling
-const handleUpload = async () => {
+// Continue to key areas (without backend call)
+const handleContinue = () => {
+  if (!selectedFile.value || !analysisName.value) return
+  
+  // Move to key areas step
+  currentStep.value = 2
+}
+
+// Create analysis and upload version (to be called from key areas screen)
+const createAnalysisAndVersion = async () => {
   if (!selectedFile.value || !analysisName.value) return
   
   isUploading.value = true
@@ -414,15 +415,14 @@ const handleUpload = async () => {
     
     const versionResult = await versionResponse.json()
     
-    if (versionResponse.ok) {
-      // Move to next step
-      currentStep.value = 2
-    } else {
+    if (!versionResponse.ok) {
       throw new Error(versionResult.errors?.join(', ') || 'Failed to upload version')
     }
+    
+    return { analysisId: analysisId.value, versionId: versionResult.id }
   } catch (error) {
     console.error('Upload error:', error)
-    alert(error.message || 'Upload failed. Please try again.')
+    throw error
   } finally {
     isUploading.value = false
   }
