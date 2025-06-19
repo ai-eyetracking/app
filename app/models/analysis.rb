@@ -1,6 +1,7 @@
 class Analysis < ApplicationRecord
   belongs_to :project
   has_many :versions, class_name: 'AnalysisVersion', dependent: :destroy
+  has_many :key_areas, dependent: :destroy
 
   scope :recent, ->{order(created_at: :desc)}
 

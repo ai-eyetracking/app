@@ -9,5 +9,11 @@ Rails.application.routes.draw do
   
   resources :analyses, only: %i[show] do
     resources :versions, controller: 'analysis_versions', only: %i[index show create]
+    resources :key_areas, only: %i[index create destroy] do
+      collection do
+        put :bulk_update
+        get :labels
+      end
+    end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_19_131837) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_19_171358) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,6 +34,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_19_131837) do
     t.datetime "updated_at", null: false
     t.index ["analysis_id", "version_number"], name: "index_analysis_versions_on_analysis_id_and_version_number", unique: true
     t.index ["analysis_id"], name: "index_analysis_versions_on_analysis_id"
+  end
+
+  create_table "key_areas", force: :cascade do |t|
+    t.bigint "analysis_id", null: false
+    t.string "name", null: false
+    t.decimal "x", precision: 5, scale: 2, null: false
+    t.decimal "y", precision: 5, scale: 2, null: false
+    t.decimal "width", precision: 5, scale: 2, null: false
+    t.decimal "height", precision: 5, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["analysis_id"], name: "index_key_areas_on_analysis_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -60,5 +72,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_19_131837) do
 
   add_foreign_key "analyses", "projects"
   add_foreign_key "analysis_versions", "analyses"
+  add_foreign_key "key_areas", "analyses"
   add_foreign_key "projects", "users"
 end
