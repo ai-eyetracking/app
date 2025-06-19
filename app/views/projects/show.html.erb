@@ -1,57 +1,106 @@
-<div class="container mx-auto px-4 py-6">
-  
-  <% if @analyses.present? %>
-    <%= link_to "Create Analysis", new_project_analysis_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-  <% end %>
-  <div class="bg-white rounded-lg shadow overflow-hidden">
-    <% if @analyses.present? %>
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2">
+          <li>
+            <a href="<%= projects_path %>" class="text-gray-500 hover:text-gray-700 transition-colors">
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+              </svg>
+            </a>
+          </li>
+          <li class="flex items-center">
+            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="ml-2 text-sm font-medium text-gray-900"><%= @project.title %></span>
+          </li>
+        </ol>
+      </nav>
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900"><%= @project.title %></h1>
+          <% if @project.description.present? %>
+            <p class="mt-2 text-gray-600"><%= @project.description %></p>
+          <% end %>
+        </div>
+        
+        <% if @analyses.present? || true %>
+          <%= link_to new_project_analysis_path(@project), 
+              class: "inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Create Analysis
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- Analyses List -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <% if @analyses.present? %>
+        <div class="px-6 py-4 border-b border-gray-100">
+          <h2 class="text-lg font-semibold text-gray-900">Analyses</h2>
+        </div>
+        
+        <div class="divide-y divide-gray-100">
           <% @analyses.each do |analysis| %>
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900"><%= analysis.name %></div>
+            <%= link_to analysis_path(analysis), class: "block px-6 py-4 hover:bg-gray-50 transition-colors" do %>
+              <div class="flex items-center justify-between">
+                <div class="flex-1">
+                  <h3 class="text-sm font-medium text-gray-900"><%= analysis.name %></h3>
+                  <div class="mt-1 flex items-center space-x-4 text-sm text-gray-500">
+                    <span class="flex items-center">
+                      <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                      </svg>
+                      <%= analysis.analysis_type.humanize %>
+                    </span>
+                    <span class="flex items-center">
+                      <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <%= time_ago_in_words(analysis.created_at) %> ago
+                    </span>
+                    <% if analysis.versions.any? %>
+                      <span class="flex items-center">
+                        <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <%= pluralize(analysis.versions.count, 'version') %>
+                      </span>
+                    <% end %>
                   </div>
                 </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900"><%= analysis.analysis_type %></div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-500"><%= time_ago_in_words(analysis.created_at) %> ago</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-500"><%= time_ago_in_words(analysis.updated_at) %> ago</div>
-              </td>
-            </tr>
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            <% end %>
           <% end %>
-        </tbody>
-      </table>
-    <% else %>
-      <div class="py-12 px-4 text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-        <h3 class="text-sm font-medium text-gray-900 mb-1">No analyses yet</h3>
-        <p class="text-sm text-gray-500 mb-4">Create your first analysis to start tracking insights</p>
-        <%= link_to "Create Analysis", new_project_analysis_path(@project), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-      </div>
-    <% end %>
-  </div>
-  
-  <div class="mt-6 sm:hidden">
-    <a href="#" class="block w-full bg-blue-500 hover:bg-blue-600 text-white py-2 text-center rounded-md text-sm font-medium transition duration-150 ease-in-out">
-      New Analysis
-    </a>
+        </div>
+      <% else %>
+        <div class="px-6 py-16 text-center">
+          <div class="mx-auto h-12 w-12 bg-gray-100 rounded-xl flex items-center justify-center">
+            <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-sm font-medium text-gray-900">No analyses yet</h3>
+          <p class="mt-1 text-sm text-gray-500">Get started by creating your first analysis</p>
+          <%= link_to new_project_analysis_path(@project), 
+              class: "mt-6 inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Create Analysis
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
