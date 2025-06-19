@@ -209,23 +209,30 @@
       </div>
     </div>
 
-    <!-- Step 2: Define Key Areas (placeholder) -->
-    <div v-if="currentStep === 2" class="max-w-4xl mx-auto">
+    <!-- Step 2: Define Key Areas -->
+    <div v-if="currentStep === 2" class="max-w-6xl mx-auto">
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
         <h2 class="text-2xl font-bold text-gray-900 mb-6">Define Key Areas</h2>
         <p class="text-gray-600 mb-8">Click and drag on your design to define important areas for analysis</p>
         
-        <!-- Placeholder for key area editor -->
-        <div class="bg-gray-100 rounded-lg h-96 flex items-center justify-center">
-          <p class="text-gray-500">Key area editor will be implemented here</p>
-        </div>
+        <!-- Key Area Editor -->
+        <KeyAreaEditor
+          v-if="previewUrl"
+          :image-src="previewUrl"
+          :initial-areas="keyAreas"
+          @update:areas="keyAreas = $event"
+        />
         
         <div class="mt-8 flex justify-between">
           <button @click="currentStep = 1" class="px-6 py-2.5 rounded-lg text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50">
             Back
           </button>
-          <button @click="finishKeyAreas" class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-gray-900 hover:bg-gray-800">
-            Save Key Areas
+          <button 
+            @click="finishKeyAreas" 
+            :disabled="keyAreas.length === 0"
+            class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+          >
+            Save Key Areas ({{ keyAreas.length }})
           </button>
         </div>
       </div>
@@ -236,6 +243,7 @@
 
 <script setup>
 import { ref, computed, onUnmounted } from 'vue'
+import KeyAreaEditor from './KeyAreaEditor.vue'
 
 const props = defineProps({
   projectId: {
@@ -285,6 +293,7 @@ const isUploading = ref(false)
 const analysisId = ref(null)
 const isDragging = ref(false)
 const selectedType = ref('website')
+const keyAreas = ref([])
 
 // Computed
 const formatFileSize = (bytes) => {
@@ -348,9 +357,13 @@ const handleContinue = () => {
 // Finish key areas and proceed
 const finishKeyAreas = () => {
   // This would save key areas and then redirect to the heatmap generator view
-  // For now, just emit an event or redirect
-  console.log('Key areas saved, ready to generate heatmap')
-  // You can emit an event here or redirect to the heatmap generator view
+  console.log('Key areas saved:', keyAreas.value)
+  console.log('Ready to generate heatmap')
+  // Here you would typically:
+  // 1. Call createAnalysisAndVersion() to save to backend
+  // 2. Save key areas to backend
+  // 3. Redirect to heatmap generator view
+  alert(`${keyAreas.value.length} key areas defined. Ready to proceed to heatmap generation.`)
 }
 
 // Create analysis and upload version (to be called from key areas screen)
