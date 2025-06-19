@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_11_184435) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_19_131837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_11_184435) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_analyses_on_project_id"
+  end
+
+  create_table "analysis_versions", force: :cascade do |t|
+    t.bigint "analysis_id", null: false
+    t.integer "version_number", null: false
+    t.string "image_path", null: false
+    t.json "heatmap_data"
+    t.json "custom_scoring"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["analysis_id", "version_number"], name: "index_analysis_versions_on_analysis_id_and_version_number", unique: true
+    t.index ["analysis_id"], name: "index_analysis_versions_on_analysis_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -46,5 +59,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_11_184435) do
   end
 
   add_foreign_key "analyses", "projects"
+  add_foreign_key "analysis_versions", "analyses"
   add_foreign_key "projects", "users"
 end
