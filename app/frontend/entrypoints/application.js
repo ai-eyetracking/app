@@ -1,4 +1,3 @@
-import '../../javascript/vue/mount.ts'
+import '../../javascript/application.js'
 
-console.log('Vite ⚡️ Rails')
-
+console.log('Vite ⚡️ Rails with Stimulus')
